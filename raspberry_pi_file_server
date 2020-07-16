@@ -1,0 +1,49 @@
+# ラズパイでファイルサーバーを作る
+動画撮影等を行うため巨大なストレージを手軽に操作したいという動機です
+
+
+- Version: Raspberry Pi 3 Model B
+- OS: Raspberry Pi OS
+
+## 設定
+### wifiに接続：USBマウスがなくキーボードのみだったためshellから設定
+```bash
+$ sudo iwlist wlan0 scan # wifi のssidとpasswordがわかるのであれば省略
+$ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="hogehoge_id"
+    psk="hugahuga_password"
+}
+```
+
+### ssh設定
+（忘れたのでここでは割愛）
+
+### ラズパイ側ファイルサーバー設定
+netatalkをインストール
+
+netatalkとは
+
+> netatalkはUnix系OS上でClassic Mac OSやmacOSに対してAFPによるファイルサーバの機能を提供するオープンソースのソフトウェアである
+
+らしい
+
+```bash
+$ sudo apt-get install netatalk
+```
+
+### Mac側ファイルサーバー設定
+    - Finderメニュー
+        - 移動
+            - サーバーへ接続
+                - `afp://(ラズパイのプライベートIPアドレス)`
+                - +ボタンを押しておくとアドレスが保存されて次回接続時楽です
+
+- ラズパイのプライベートIPアドレス確認方法
+`$ ifconfig`で`wlan0`の`inet`を参照
+
+Finderのネットワークから、ラズパイに接続できるかと思いますー！
+
+### 
+
