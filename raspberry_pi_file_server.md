@@ -46,4 +46,24 @@ $ sudo apt-get install netatalk
 Finderのネットワークから、ラズパイに接続できるかと思いますー！
 
 ### 
+``` raspberry pi mount: unknown filesystem type 'exfat' ``` 
+というエラーが出た
+Raspbianではデフォルトではexfatフォーマットはサポートしていないので関連ライブラリインストール 
+https://www.raspberrypi.org/forums/viewtopic.php?t=45607 
+```
+sudo apt-get update sudo apt-get install exfat-fuse exfat-utils
+```
+これで`/media/pi/hoge`に自動でmountされた 
+しかし、またもや問題発生。 
+netatalkはデフォルトでmac側からは`~/`しか見れなかった（マウントされている/media/pi/hoge見れず） 
+https://a244.hateblo.jp/entry/2016/10/19/000000 を参考に`/etc/netatalk/AppleVolumes.default`に
+``` 
+/media/pi "Media Directory"
+```
+を追記しアプリ再起 
+```
+$ sudo systemctl restart netatalk
+$ sudo systemctl status netatalk # 'active (running)' となっていればOK
+```
+見れるようになりました。😊
 
